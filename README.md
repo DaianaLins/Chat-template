@@ -1,2 +1,2 @@
 # Chat-template
-Um app mobile que utiliza react-native e expo como tecnologias.
+Template de app de chat com temas.
