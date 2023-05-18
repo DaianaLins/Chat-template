@@ -5,13 +5,12 @@ import { useContext } from "react";
 import themes from '../../src/themes';
 import { Chat } from '../assets/chat.js';
 import { Config } from '../assets/config.js';
-import { PerfilC } from "../assets/profile";
 import { StatusC } from "../assets/status.js";
 import { SettingsContext } from "../context/SettingsContext";
 import Conversas from "../pages/Conversations";
-import DetailsConversation from "../pages/Conversations/detailsConversations";
-import NewContact from "../pages/Conversations/newContact";
-import NewConversation from "../pages/Conversations/newConversations";
+import DetailsConversation from "../pages/Conversations/DetailsConversations";
+import NewContact from "../pages/Conversations/NewContact";
+import NewConversation from "../pages/Conversations/NewConversation";
 import Perfil from "../pages/Perfil";
 import Settings from "../pages/Settings";
 import SignIn from "../pages/SignIn";
@@ -52,12 +51,6 @@ function Tabs() {
           <Chat focused={focused} color={color} />
         )
       }} component={Conversas} />
-      <Tab.Screen name="Perfil" options={{
-        headerShown: false,
-        tabBarIcon: ({ focused, color, size }) => (
-          <PerfilC focused={focused} color={color} />
-        )
-      }} component={Perfil} />
       <Tab.Screen name="Configurações" options={{
         headerShown: false,
         tabBarIcon: ({ focused, color, size }) => (
@@ -95,6 +88,11 @@ export default function Routes() {
         <Stack.Screen
           name="NewContact"
           component={NewContact}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Perfil"
+          component={Perfil}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

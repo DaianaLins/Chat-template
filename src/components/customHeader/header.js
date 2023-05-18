@@ -6,20 +6,18 @@ import { SettingsContext } from "../../context/SettingsContext";
 import { Title } from "../../pages/Conversations/styles";
 import themeColor from '../../themes'
 
-import ButtonComponents from "../buttonsComponent/buttonsComponent";
 const customHeader = props => {
     const { theme } = useContext(SettingsContext)
     const navigation = useNavigation()
     return (
-        <View >
-            <View style={styles.contaneirHeader}>
-                <View style={styles.content}>
-                    <Title style={{ fontSize: 28, color: themeColor[theme].color }}>{props.title}</Title>
-                    <TouchableOpacity onPress={() => { navigation.navigate('NewConversation') }}>
-                        <Edit width='30' style={styles.edit} />
-                    </TouchableOpacity>
+        <View style={styles.contaneirHeader}>
+            <View style={styles.content}>
+                <Title style={{ fontSize: 28, color: themeColor[theme].color }}>{props.title}</Title>
+                <View style={styles.content2}>
+                <TouchableOpacity onPress={() => { navigation.navigate('NewConversation') }}>
+                    <Edit width='30' style={styles.edit} />
+                </TouchableOpacity>
                 </View>
-                <ButtonComponents />
             </View>
         </View>
     )
@@ -37,15 +35,10 @@ const styles = StyleSheet.create({
         alignContent: 'center',
         alignItems: 'center',
         justifyContent: 'space-between',
-        paddingHorizontal: 20
     },
     content2: {
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignContent: 'center',
-        alignItems: 'center',
-        top: '10%',
+        // flex: 1,
+        paddingEnd: 20
     },
     containerLogo: {
         flex: 1,

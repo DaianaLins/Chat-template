@@ -1,32 +1,31 @@
 import React, { useState, useEffect, useContext } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, FlatList, ActivityIndicator, Dimensions, AsyncStorage } from "react-native";
+import { StyleSheet, FlatList, Dimensions} from "react-native";
 import Header from "../../components/customHeader/header";
 import axios from "axios";
 import SearchComp from "../../components/search/search";
 import { useNavigation } from "@react-navigation/native";
-import NoBtn from '../../assets/notBtn.svg'
-import { Wrapper, Title } from "../../routes/styles";
-import { TextTitle, Text2 } from "./styles";
+import { Wrapper } from "../../routes/styles";
 import { SettingsContext } from "../../context/SettingsContext";
 import themeColor from '../../themes'
 
-import StatusBox from "../../components/statusBox/statusBox.js";
+import FooterList from "../../components/FooterList";
+import ListItem from "../../components/ListItem";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
 const Conversations = ({ route }) => {
     const { theme } = useContext(SettingsContext)
-    const { name } = route.params || 'Atendimento'
     const perPage = 20;
     const [page, setPage] = useState(1)
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(false)
     const baseUrl = 'https://api.github.com';
+    const navigation = useNavigation()
 
     useEffect(() => {
         loadApi()
-    }, [])
+    }, [data])
 
     async function loadApi() {
         if (loading) return;
@@ -37,67 +36,21 @@ const Conversations = ({ route }) => {
         setLoading(false)
     }
 
-    // console.log(data)
     return (
         <Wrapper style={[styles.container, { backgroundColor: themeColor[theme].background }]}>
             <Header title='Conversas' />
             <SearchComp />
-            {name === 'Aguardando' ?
-                <View>
-
-                    {String(data).length > 0 ?
-                        <FlatList style={{ marginTop: 30 }}
-                            data={data}
-                            renderItem={({ item }) => <ListItem data={item} />}
-                            keyExtractor={item => String(item.id)}
-                            onEndReached={loadApi}
-                            onEndReachedThreshold={0.1}
-                            ListFooterComponent={<FooterList load={loading} />}
-                        />
-                        :
-                        <View style={styles.containerMessage}>
-                            <View style={styles.contentMessage}>
-                                <Text style={[styles.text, { color: themeColor[theme].color }]} >Ops! Nenhum contato foi encontrado nesse status.</Text>
-                            </View>
-                        </View>
-                    }
-                </View>
-                :
-                <View>
-                    {/* apenas testando, quando vier da api isso aqui vai ficar assim String(contact).length > 0  Em atendimento*/}
-                    <FlatList style={{ marginTop: 30 }}
-                        data={data}
-                        renderItem={({ item }) => <ListItem data={item} />}
-                        keyExtractor={item => String(item.id)}
-                        onEndReached={loadApi}
-                        onEndReachedThreshold={0.1}
-                        ListFooterComponent={<FooterList load={loading} />}
-                    />
-                </View>
-            }
+                <FlatList style={{ marginTop: 30 }}
+                    data={data}
+                    renderItem={({ item }) => <ListItem data={item} />}
+                    keyExtractor={item => String(item.id)}
+                    onEndReached={loadApi}
+                    onEndReachedThreshold={0.1}
+                    ListFooterComponent={<FooterList load={loading} />}
+                />
         </Wrapper>
     )
 }
-
-const ListItem = ({ data }) => {
-    return (
-      <View>
-        <TouchableOpacity>
-          <StatusBox name={data.full_name} time={1} />
-        </TouchableOpacity>
-      </View>
-    );
-  }
-
-const FooterList = ({ load }) => {
-    if (!load) return null;
-    return (
-        <View style={{ padding: 10 }}>
-            <ActivityIndicator size={25} color='#ACAEB0' />
-        </View>
-    );
-}
-
 
 const styles = StyleSheet.create({
     container: {
